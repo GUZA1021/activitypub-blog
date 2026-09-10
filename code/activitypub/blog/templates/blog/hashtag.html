@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is-2">{{ hashtag }}</h2>
+{% endblock page_title %}
+
+{% block content %}
+    {% block posts %}
+        {% for p in posts %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+            <h3><a href="{% url 'blog_detail' p.pk %}">{{ p.title }}</a> </h3>
+            <small>
+                {{ p.created_on.date }}  | {{ p.hashtags }}
+            </small>
+            <p>{{ p.body | slice:":400" }}</p>
+            </div>
+            </div>
+            </div>
+        {% endfor %}
+    {% endblock posts %}
+    {% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is t-2">{{ post.title }}</h2>
+{% endblock page_title %}
+
+{% block content %}
+<div class="card">
+    <div class="card-content">
+        <div class="content">
+
+            <small>
+                <a href="{% url 'user_profile' post.author.username%}">
+                    @{{ post.author.username }}
+                </a>
+                - {{ post.created_on.date }} {{ post.created_on.time}} | Likes:
+                <span class="tag is-danger is-light">
+                    {{ post.likes }}
+                </span>
+            </small>
+
+            <p>{{ post.body | linebreaks }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-content">
+        <div class="content">
+            {% for c in comments %}
+            <div class="box">
+                <strong>{{ c.author}}</strong>
+                <small class="has-text-grey">{{ c.created_on.date }}</small>
+                <p class="">{{ c.body | striptags }}</p>
+            </div>
+        {% empty %}
+            <p class="has-text-grey">No comments yet</p>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-content">
+        <h4 class="title is-4">Leave a comment</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    {{ form.author }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Comment</label>
+                <div class="control">
+                    {{ form.body }}
+                </div>
+            </div>
+            <button type="submit" class="button is-dark">Comment</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+
+    <title>Activitypub Blog</title>
+
+</head>
+<body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item title is-3" href="{% url 'blog_index' %}">Activitypub</a>
+
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-end">
+        
+<div class="navbar-item">
+    <form method="get" action="{% url 'search_user'%}">
+
+
+              <div class="field has-addons">
+        <p class="control">
+          <input class="input" type="text" name="handle" placeholder="Search @user@domain" />
+        </p>
+        <!-- <p class="control">
+          <button class="button" type="submit">Search</button>
+        </p> -->
+      </div>
+
+        </form>
+
+    </div>
+
+
+
+      <div class="navbar-item">
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'user_profile' user.username %}" class="mr-3 has-text-dark" >Welcome <strong>{{ user.username }}</strong></a>
+    <a class="navbar-item" href="{% url 'password_change' %}">Change password</a>
+    <a class="navbar-item" href="{% url 'blog_create' %}">Make a post</a>
+    <form method="post" action="{% url 'logout' %}" >
+        {% csrf_token %}
+        <button class="button is-light is-danger" type="submit">Log Out</button>
+    </form>
+
+    {% else %}
+        <a class="button is-dark" href="{% url 'login' %}">Log In</a>
+        <a class="button is-light" href="{% url 'signup' %}">Sign Up</a>
+
+    {% endif %}
+      </div>
+            </div>
+        </div>
+
+    </nav>
+    <hr class="mt-0">
+        <div class="container is-max-tablet pt-4">
+
+    {% block page_title %}{% endblock page_title %}
+    {% block content %}
+    {% endblock content%}
+    </div>
+</body>
+</html>

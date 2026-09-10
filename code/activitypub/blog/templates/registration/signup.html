@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is-2">Sign up</h2>
+{% endblock page_title %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-content">
+        <div class="content">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="field">
+                    <button class="button is-dark" type="submit">Sign up</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

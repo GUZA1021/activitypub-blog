@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="columns">
+
+    <!-- Left side -->
+    <div class="column is-5">
+        <div class="card">
+            <div class="card-image">
+                <figure class="image is-4by3">
+                    {% if profile_user.profile_picture %}
+                    <img src="{{ profile_user.profile_picture.url }}" style="border: 3px solid black" alt="Profile picture">
+                    {% else %}
+                    <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Default image">
+                    {% endif %}
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48" style="border: 1px solid rgb(177, 177, 177)">
+                            {% if profile_user.profile_picture %}
+                            <img src="{{ profile_user.profile_picture.url }}" alt="Profile picture">
+                            {% else %}
+                            <img src="https://bulma.io/assets/images/placeholders/1280x960.png" alt="Default image">
+                            {% endif %}
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-5">@{{profile_user.username}}</p>
+                    </div>
+                </div>
+
+                <div class="columns has-text-centered">
+                    <div class="column">
+                        <p class="heading">Posts</p>
+                        <p class="title is-5">{{ posts_count}}</p>
+                    </div>
+                    <div class="column">
+                        <p class="heading">Followers</p>
+                        <p class="title is-5">{{ followers_count}}</p>
+                    </div>
+                    <div class="column">
+                        <p class="heading">Following</p>
+                        <p class="title is-5">{{ following_count}}</p>
+                    </div>
+
+                </div>
+
+                <div class="content">
+                    {{ profile_user.bio }}
+                    <br>
+                    <br>
+                    Joined: <time>{{ profile_user.date_joined|date:"F Y" }}</time>
+                    <br>
+                    Last online:
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right side -->
+    <div class="column is-three-quarters">
+    {% for post in posts %}
+    <div class="box">
+        <article>
+            <p class="title is-5">
+                <a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a>
+            </p>
+            <p class="subtitle is-6">{{ post.created_on|date:"F j, Y"}}</p>
+            <p>{{ post.body|truncatewords:30 }}</p>
+            
+            <div class="columns has-text-centered mt-3">
+                <div class="column">
+                    <button class="button is-light is-fullwidth">Reply</button>
+                </div>
+                
+                <div class="column">
+                    <button class="button is-light  is-fullwidth">Like</button>
+                </div>
+
+                <div class="column">
+                    <button class="button is-light is-fullwidth">Repost</button>
+                </div>
+            </div>
+        </article>
+    </div>
+    {% empty %}
+    <p>No posts yet.</p>
+    {% endfor %}
+</div>
+</div>
+
+</section>
+
+{% endblock content %}

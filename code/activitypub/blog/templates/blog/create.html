@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is t-2">Create blog</h2>
+{% endblock page_title %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-content">
+    <div class="content">
+        <form method="post">
+          {% csrf_token %}
+            <div class="field">
+              <label class="label">Title</label>
+              <div class="control">
+                <input class="input" type="text" name="title" placeholder="Title">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Your Post</label>
+              <div class="control">
+                <textarea class="textarea" name="body" placeholder="What's on your mind..."></textarea>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Hashtags</label>
+              <div class="control">
+                <input class="input" type="text" name="hashtags" placeholder="#activitypub">
+              </div>
+            </div>
+            <div class="field">
+              <a class="button is-light" href="{% url 'blog_index' %}">Cancel</a>
+              <button class="button is-dark">Publish Post</button>
+            </div>
+
+
+
+        </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content%}

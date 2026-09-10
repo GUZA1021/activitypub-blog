@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is-2">Blog Posts</h2>
+{% endblock page_title %}
+
+{% block content %}
+{% block posts %}
+{% for p in posts %}
+<div class="card">
+    <div class="card-content">
+        <div class="content">
+            <h3><a href="{% url 'blog_detail' p.pk %}">{{ p.title }}</a> </h3>
+
+            <small>
+                <a href="{% url 'user_profile' p.author.username%}">
+                    @{{ p.author.username }}
+                </a>
+                - {{ p.created_on.date }}
+                {% if p.hashtags %}
+                {{ p.created_on.date }}
+                <a href="{% url 'blog_hashtag' p.hashtags %}">{{ p.hashtags }}</a>
+            </small>
+
+            {% endif %}
+
+            <p>{{ p.body | slice:":400" }}</p>
+
+                        <div class="columns has-text-centered mt-3">
+                <div class="column">
+                    <button class="button is-light is-small is-fullwidth">Reply</button>
+                </div>
+                
+                <div class="column">
+                    <button class="button is-light is-small  is-fullwidth">Like</button>
+                </div>
+
+                <div class="column">
+                    <button class="button is-light is-small is-fullwidth">Repost</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock posts %}
+
+<nav class="pagination is-small is-rounded is-centered mb-6" role="navigation" aria-label="pagination">
+    {% if posts.has_previous %}
+    <a href="?page={{ posts.previous_page_number}}" class="pagination-previous">Previous</a>
+    {% else %}
+    <a class="pagination-previous" disabled>Previous</a>
+
+    {% endif %}
+
+    {% if posts.has_next %}
+    <a href="?page={{ posts.next_page_number}}" class="pagination-next">Next</a>
+    {% else %}
+    <a class="pagination-next" disabled>Next</a>
+    {% endif %}
+
+    <ul class="pagination-list">
+        {% for x in posts.paginator.page_range %}
+        <li>
+            <a href="?page={{ x }}" class="pagination-link {% if posts.number == x %}is-current{% endif %}">
+                {{ x }}
+            </a>
+
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endblock content %}

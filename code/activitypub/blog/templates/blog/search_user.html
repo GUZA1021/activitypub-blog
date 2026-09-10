@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+<h2 class="title is-2">Search Fediverse User</h2>
+{% endblock page_title %}
+
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-content">
+        <form method="get">
+            <div class="control">
+                {{form.handle}}
+            </div>
+
+            <div class="control">
+                <button type="submit" class="button is-dark">Search</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% if result %}
+
+<div class="card">
+    <div class="card-content">
+        <h3>{{ result.name }}</h3>   
+        <p>{{ result.preferredUsername }}</p>    
+        <p>{{ result.summary }}</p>
+        <form method="post" action="{% url 'follow_users' %}">
+            {% csrf_token %}
+            <input type="hidden" name="actor_url" value="{{ result.id }}">
+            <button type="submit" class="button is-dark">Follow</button>
+        </form>     
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}
+
